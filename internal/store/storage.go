@@ -7,6 +7,7 @@ import (
 
 type Storage struct {
 	Posts interface {
+		GetById(context.Context, int64) (*Post, error)
 		Create(context.Context, *Post) error
 	}
 	Users interface {
