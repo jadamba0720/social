@@ -116,6 +116,22 @@ func Seed(store store.Storage) {
 	}
 
 	posts := generatePosts(20, users)
+
+	for _, post := range posts {
+		if err := store.Posts.Create(ctx, post); err != nil {
+			log.Println("Error creating user:", err)
+		}
+	}
+
+	comments := generateComments(20, users, posts)
+
+	for _, comment := range comments {
+		if err := store.Comment.Create(ctx, comment); err != nil {
+			log.Println("Error creating user:", err)
+		}
+	}
+
+	log.Println("Seeding complete")
 }
 
 func generateUsers(num int) []*store.User {
@@ -152,4 +168,18 @@ func generatePosts(num int, users []*store.User) []*store.Post {
 	}
 
 	return posts
+}
+
+func generateComments(num int, users []*store.User, posts []*store.Post) []*store.Comment {
+	cms := make([]*store.Comment, num)
+
+	for i := 0; i < num; i++ {
+		cms[i] = &store.Comment{
+			PostID:  posts[rand.Intn(len(posts))].ID,
+			UserID:  users[rand.Intn(len(users))].ID,
+			Content: comments[rand.Intn(len(comments))],
+		}
+	}
+
+	return cms
 }

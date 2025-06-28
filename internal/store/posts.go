@@ -97,7 +97,7 @@ func (s *PostStore) Delete(ctx context.Context, postId int64) error {
 }
 
 func (s *PostStore) Update(ctx context.Context, post *Post) error {
-	query := `UPDATE posts SET title=$1 , content= $2 WHERE id= $3 AND version =$4 RETURN version`
+	query := `UPDATE posts SET title=$1 , content= $2 WHERE id= $3 AND version =$4 RETURNING version`
 
 	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
 	defer cancel()

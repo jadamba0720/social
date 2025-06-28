@@ -18,3 +18,8 @@ migrate-down:
 .PHONY: migrate-force
 migrate-force:
 	@migrate -path=$(MIGRATIONS_PATH) -database=$(DB_MIGRATOR_ADDR) force $(filter-out $@,$(MAKECMDGOALS))
+
+
+.PHONY: seed
+seed:
+	@bash -c "source .envrc && go run cmd/migrate/seed/main.go"
